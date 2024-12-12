@@ -21,18 +21,18 @@ class Dock<T> extends StatefulWidget {
 /// State of the [Dock] used to manipulate the [_items].
 class _DockState<T> extends State<Dock<T>> {
   /// [T] items being manipulated.
-  late final List<T> items = widget.items.toList();
+  late final List<T> _items = widget.items.toList();
 
-  /// Initialization of the list [items]
+  /// Initialization of the list [_items]
   @override
   void initState() {
     /// Sorts the [items] based on its index
-    items.sort((a, b) {
+    _items.sort((a, b) {
       debugPrint('${a.toString()}: $a');
       debugPrint('${b.toString()}: $b');
 
       /// Returns 1 when index a is greater than b, 0 otherwise
-      return (items.indexOf(a) > items.indexOf(b)) ? 1 : 0;
+      return (_items.indexOf(a) > _items.indexOf(b)) ? 1 : 0;
     });
     super.initState();
   }
@@ -71,20 +71,20 @@ class _DockState<T> extends State<Dock<T>> {
 
             /// Switches the [items] onReorder gesture of the items on their new order
             if (newIndex > oldIndex) {
-              T item = items[oldIndex];
-              items.removeAt(oldIndex);
-              items.insert(newIndex - 1, item);
+              T item = _items[oldIndex];
+              _items.removeAt(oldIndex);
+              _items.insert(newIndex - 1, item);
             } else {
-              T item = items[oldIndex];
-              items.removeAt(oldIndex);
-              items.insert(newIndex, item);
+              T item = _items[oldIndex];
+              _items.removeAt(oldIndex);
+              _items.insert(newIndex, item);
             }
           });
         },
-        children: items.map((e) {
+        children: _items.map((e) {
           return ReorderableDragStartListener(
             key: UniqueKey(),
-            index: items.indexOf(e),
+            index: _items.indexOf(e),
             child: widget.builder(e),
           );
         }).toList(),
